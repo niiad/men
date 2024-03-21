@@ -25,10 +25,6 @@ app.get("/users/:id", (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`listening on port:${port}`)
-});
-
 app.post("/users", (req, res) => {
     const {name} = req.body;
     const id = users.length + 1;
@@ -51,4 +47,21 @@ app.put("/users/:id", (req, res) => {
     } else {
         res.status(404).send("user not found");
     }
+});
+
+app.delete("/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const userIndex = users.findIndex(user => user.id === id);
+
+    if (userIndex !== -1) {
+        users.splice(userIndex, 1);
+
+        res.status(204).send();
+    } else {
+        res.status(404).send("user not found");
+    }
+});
+
+app.listen(port, () => {
+    console.log(`listening on port:${port}`)
 });
