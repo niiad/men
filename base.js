@@ -38,3 +38,17 @@ app.post("/users", (req, res) => {
 
     res.status(201).json(newUser);
 });
+
+app.put("/users/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const {name} = req.body;
+    const userIndex = users.findIndex(user => user.id === id);
+
+    if (userIndex !== -1) {
+        users[userIndex].name = name;
+
+        res.json(users[userIndex]);
+    } else {
+        res.status(404).send("user not found");
+    }
+});
